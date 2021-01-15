@@ -12,6 +12,7 @@ output:
 library(flexdashboard)
 
 library("readxl")
+survey_results <- read_excel("../../data/FMG teachers 2 minute survey  December 2020_January 15, 2021_09.45.xlsx", skip = 1)
 ```
 
 Inputs {.sidebar}
@@ -25,6 +26,11 @@ Column {data-width=650}
 ### Chart A
 
 ```{r}
+# install.packages("RColorBrewer")
+library(RColorBrewer)
+# install.packages("wordcloud2")
+library("wordcloud2")
+
 
 ```
 
