@@ -26,14 +26,14 @@ Presented are the results of the FMG online teaching survey, conducted by the FM
 
 ```{r}
 n.responses <- dim(survey_results)[1]
-valueBox(n.responses, icon = "fa-pencil")
+valueBox(n.responses, icon = "fa-pencil", color = "#E89300")
 ```
 
 ### Teaching tips
 
 ```{r}
 n.tips <- sum(!is.na(survey_results$`What is one online teaching tip or trick that you would share with fellow teachers?`))
-valueBox(n.tips, icon = "fa-comments")
+valueBox(n.tips, icon = "fa-comments", color = "#E89300")
 ```
 
 Column {data-width=650}
@@ -45,6 +45,9 @@ Column {data-width=650}
 
 ```{r}
 # Used resource: https://towardsdatascience.com/create-a-word-cloud-with-r-bde3e7422e8a
+
+# Set seed for same wordcloud after recompiling
+set.seed(4536)
 
 # install.packages("RColorBrewer")
 library(RColorBrewer)
