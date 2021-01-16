@@ -23,15 +23,45 @@ Presented are the results of the FMG online teaching survey, conducted by the FM
 Column {data-width=650}
 -----------------------------------------------------------------------
 
-### Chart A
+### Word cloud
+
+`r names(survey_results)[6]`
 
 ```{r}
+# Used resource: https://towardsdatascience.com/create-a-word-cloud-with-r-bde3e7422e8a
+
 # install.packages("RColorBrewer")
 library(RColorBrewer)
 # install.packages("wordcloud2")
 library("wordcloud2")
+# install.packages("tm")
+library(tm)
+library("dplyr")
 
+# Create a vector containing only the text
+text <- survey_results$`What is one online teaching tip or trick that you would share with fellow teachers?`
 
+docs <- Corpus(VectorSource(text))
+
+# Clean the text
+
+docs <- docs %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stripWhitespace)
+docs <- tm_map(docs, content_transformer(tolower))
+docs <- tm_map(docs, removeWords, stopwords("english"))
+
+# Create word frequencies
+
+dtm <- TermDocumentMatrix(docs) 
+matrix <- as.matrix(dtm) 
+words <- sort(rowSums(matrix),decreasing=TRUE) 
+df <- data.frame(word = names(words),freq=words)
+
+# Create word cloud
+
+wordcloud2(data=df, size=1.6, color='random-dark')
 ```
 
 Column {data-width=350}
