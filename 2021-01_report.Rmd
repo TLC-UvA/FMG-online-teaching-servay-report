@@ -6,6 +6,7 @@ output:
     vertical_layout: fill
     theme: default
     css: "style.css"
+    source_code: embed
 ---
 
 ```{r setup, include=FALSE}
