@@ -16,10 +16,25 @@ library("readxl")
 survey_results <- read_excel("../../data/FMG teachers 2 minute survey  December 2020_January 15, 2021_09.45.xlsx", skip = 1)
 ```
 
-Inputs {.sidebar}
------------------------------------------------------------------------
+
+Column {data-width=300}
+-----------------------
 
 Presented are the results of the FMG online teaching survey, conducted by the FMG Teaching & Learning Centre.
+
+### Responses
+
+```{r}
+n.responses <- dim(survey_results)[1]
+valueBox(n.responses, icon = "fa-pencil")
+```
+
+### Teaching tips
+
+```{r}
+n.tips <- sum(!is.na(survey_results$`What is one online teaching tip or trick that you would share with fellow teachers?`))
+valueBox(n.tips, icon = "fa-comments")
+```
 
 Column {data-width=650}
 -----------------------------------------------------------------------
