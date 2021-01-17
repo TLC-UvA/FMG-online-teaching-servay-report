@@ -1,3 +1,7 @@
 .container-fluid {
   background-color: #E89300;
 }
+
+.modebar{
+      display: none !important;
+}

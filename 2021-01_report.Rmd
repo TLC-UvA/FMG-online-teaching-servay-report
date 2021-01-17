@@ -37,6 +37,59 @@ n.tips <- sum(!is.na(survey_results$`What is one online teaching tip or trick th
 valueBox(90, icon = "fa-comments", color = "#E89300")
 ```
 
+### Schools
+
+```{r}
+schools <- survey_results$`In which school(s) do you teach?`
+
+as.data.frame(table(schools)) -> schools.freq
+```
+
+
+```{r, eval=F}
+# install.packages("highcharter")
+library(highcharter)
+
+hchart(schools.freq, 
+      "bar",
+      hcaes(x = schools, y = Freq),
+      color = "#E89300"
+      # name = c("Year 1999", "Year 2008"),
+      # showInLegend = c(TRUE, FALSE) # only show the first one in the legend
+      ) %>%  hc_xAxis(title = list(text = ""),
+                      showFirstLabel = FALSE,
+                      showLastLabel  = FALSE,
+                      labels = list(enabled = FALSE))
+
+```
+
+```{r, eval=T}
+# install.packages("plotly")
+# install.packages("ggplot2")
+library(plotly)
+
+ax <- list(
+  title = "",
+  zeroline       = FALSE,
+  showline       = FALSE,
+  showticklabels = FALSE,
+  showgrid       = FALSE
+)
+
+schools.freq %>%  
+  plot_ly(x      = ~schools, 
+          y      = ~Freq, 
+          type   = "bar", 
+          colors = "viridis",
+          marker = list(color = "#E89300")
+          # autoexpand  = F
+          # orientation = "h"
+          )  %>% layout(xaxis = ax, yaxis = ax, margin = list(l = 10,
+                                                              b = 10,
+                                                              autoexpand = F))
+```
+
+
 Column {data-width=650}
 -----------------------------------------------------------------------
 
@@ -102,9 +155,7 @@ df <- data.frame(word = names(words),freq=words)
 wordcloud2(data=df, size=1, color='random-dark')
 ```
 
-### Chart C
 
-```{r}
 
-```
+### Next
 
