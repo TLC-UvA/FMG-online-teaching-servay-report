@@ -50,7 +50,7 @@ willing.to.share <- grep("Yes", survey_results$`Would you be willing share this 
 DT::datatable(survey_results[willing.to.share,6],
               rownames = FALSE,
               colnames = "",
-              options  = list(bPaginate = TRUE)
+              options  = list(bPaginate = FALSE)
               )
 
 # survey_results[willing.to.share,6]
