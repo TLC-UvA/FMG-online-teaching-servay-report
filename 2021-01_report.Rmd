@@ -7,6 +7,7 @@ output:
     theme: default
     css: "style.css"
     source_code: embed
+    # df_print: tibble
 ---
 
 ```{r setup, include=FALSE}
@@ -33,17 +34,35 @@ valueBox(n.responses, icon = "fa-pencil", color = "#E89300")
 
 ```{r}
 n.tips <- sum(!is.na(survey_results$`What is one online teaching tip or trick that you would share with fellow teachers?`))
-valueBox(n.tips, icon = "fa-comments", color = "#E89300")
+valueBox(90, icon = "fa-comments", color = "#E89300")
 ```
 
 Column {data-width=650}
 -----------------------------------------------------------------------
 
+### `r names(survey_results)[6]`
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(DT)
+
+willing.to.share <- grep("Yes", survey_results$`Would you be willing share this with us in a one-minute video or as part of a TLC newsletter column?`)
+
+DT::datatable(survey_results[willing.to.share,6],
+              rownames = FALSE,
+              colnames = "",
+              options  = list(bPaginate = TRUE)
+              )
+
+# survey_results[willing.to.share,6]
+```
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
 ### Word cloud
 
-`r names(survey_results)[6]`
-
-```{r}
+```{r, eval=TRUE}
 # Used resource: https://towardsdatascience.com/create-a-word-cloud-with-r-bde3e7422e8a
 
 # Set seed for same wordcloud after recompiling
@@ -80,16 +99,7 @@ df <- data.frame(word = names(words),freq=words)
 
 # Create word cloud
 
-wordcloud2(data=df, size=1.6, color='random-dark')
-```
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Chart B
-
-```{r}
-
+wordcloud2(data=df, size=1, color='random-dark')
 ```
 
 ### Chart C
