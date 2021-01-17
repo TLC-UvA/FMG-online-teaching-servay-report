@@ -42,26 +42,14 @@ valueBox(90, icon = "fa-comments", color = "#E89300")
 ```{r}
 schools <- survey_results$`In which school(s) do you teach?`
 
+# Some teachers belong to multiple schools
+schools <- strsplit(schools, ",")
+
+schools <- unlist(schools)
+
 as.data.frame(table(schools)) -> schools.freq
 ```
 
-
-```{r, eval=F}
-# install.packages("highcharter")
-library(highcharter)
-
-hchart(schools.freq, 
-      "bar",
-      hcaes(x = schools, y = Freq),
-      color = "#E89300"
-      # name = c("Year 1999", "Year 2008"),
-      # showInLegend = c(TRUE, FALSE) # only show the first one in the legend
-      ) %>%  hc_xAxis(title = list(text = ""),
-                      showFirstLabel = FALSE,
-                      showLastLabel  = FALSE,
-                      labels = list(enabled = FALSE))
-
-```
 
 ```{r, eval=T}
 # install.packages("plotly")
