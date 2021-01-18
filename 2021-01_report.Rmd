@@ -21,7 +21,7 @@ survey_results <- read_excel("../../data/FMG teachers 2 minute survey  December 
 Column {data-width=300}
 -----------------------
 
-Presented are the results of the FMG online teaching survey, conducted by the FMG Teaching & Learning Centre.
+Presented are the teaching tips from the FMG online teaching survey, conducted by the FMG Teaching & Learning Centre.
 
 ### Responses
 
@@ -33,8 +33,8 @@ valueBox(n.responses, icon = "fa-pencil", color = "#E89300")
 ### Teaching tips
 
 ```{r}
-n.tips <- sum(!is.na(survey_results$`What is one online teaching tip or trick that you would share with fellow teachers?`))
-valueBox(90, icon = "fa-comments", color = "#E89300")
+n.tips <- length(grep("Yes", survey_results$`Would you be willing share this with us in a one-minute video or as part of a TLC newsletter column?`))
+valueBox(n.tips, icon = "fa-comments", color = "#E89300")
 ```
 
 ### Schools
@@ -72,9 +72,13 @@ schools.freq %>%
           marker = list(color = "#E89300")
           # autoexpand  = F
           # orientation = "h"
-          )  %>% layout(xaxis = ax, yaxis = ax, margin = list(l = 10,
-                                                              b = 10,
-                                                              autoexpand = F))
+          )  %>% layout(xaxis = ax, 
+                        yaxis = ax, 
+                        margin = list(l = 10,
+                                      b = 10,
+                                      t = 10,
+                                      autoexpand = F),
+                        hoverlabel=list(bgcolor="white"))
 ```
 
 
@@ -143,7 +147,51 @@ df <- data.frame(word = names(words),freq=words)
 wordcloud2(data=df, size=1, color='random-dark')
 ```
 
+### Tips categories
+
+```{r}
+coded.tips <- read_excel("../../data/TLC_CheckIn.xls")
+
+as.data.frame(table(coded.tips$Q2_tip_coded)) -> coded.tips
+
+# Drop none responses and other
 
 
-### Next
+# subset(coded.tips, Var1 != c(-10, -11) )
+# 
+# data.frame(coded.tips[c(-10, -11),]) -> coded.tips
+```
+
+```{r}
+
+coded.tips %>% 
+  filter((Var1 != 'None Offered' & Var1 != 'Other')) %>%
+  arrange(desc(Freq)) -> coded.tips
+
+rownames(coded.tips) <- 1:dim(coded.tips)[1]
+
+# Found no other way to delete the gaps in the plor for the ommited two categories :-(
+write.csv2(coded.tips, file = "tips.csv")
+# factor(coded.tips$Var1)
+
+coded.tips <- read.csv2("tips.csv")
+
+coded.tips$Var1 <- factor(coded.tips$Var1, levels = unique(coded.tips$Var1)[order(coded.tips$Freq, decreasing = FALSE)])
+  
+coded.tips %>% 
+  plot_ly(x      = ~Freq, 
+          y      = ~Var1, 
+          type   = "bar", 
+          colors = "viridis",
+          marker = list(color = "#E89300")
+          # orientation = "h"
+          )  %>% layout(xaxis = ax, 
+                        yaxis = ax, 
+                        margin = list(l = 10,
+                                      b = 10,
+                                      t = 10,
+                                      autoexpand = F),
+                        hoverlabel=list(bgcolor="white"))
+```
+
 
