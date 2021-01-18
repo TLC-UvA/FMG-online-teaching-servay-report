@@ -21,7 +21,7 @@ survey_results <- read_excel("../../data/FMG teachers 2 minute survey  December 
 Column {data-width=300}
 -----------------------
 
-Presented are the teaching tips and future views from the FMG online teaching survey, conducted by the FMG Teaching & Learning Centre.
+Presented are the teaching tips and future views from the FMG online teaching survey, conducted by the [FMG Teaching & Learning Centre](http://tlc.uva.nl/en/article-faculty/fmg-en/).
 
 ### Responses
 
@@ -121,7 +121,7 @@ DT::datatable(survey_results[willing.to.share,8],
 # survey_results[willing.to.share,6]
 ```
 
-Column {data-width=350}
+Row {data-width=350}
 -----------------------------------------------------------------------
 
 ### Word cloud
@@ -163,8 +163,9 @@ df <- data.frame(word = names(words),freq=words)
 
 # Create word cloud
 
-wordcloud2(data=df, size=1, color='random-dark')
+wordcloud2(data=df, size=.8, color='random-dark')
 ```
+
 
 ### Tips categories
 
@@ -213,4 +214,49 @@ coded.tips %>%
                         hoverlabel=list(bgcolor="white"))
 ```
 
+### Future categories
 
+```{r}
+coded.future <- read_excel("../../data/TLC_CheckIn.xls")
+
+as.data.frame(table(coded.future$Q11_coded)) -> coded.future
+
+# Drop none responses and other
+
+
+# subset(coded.tips, Var1 != c(-10, -11) )
+# 
+# data.frame(coded.tips[c(-10, -11),]) -> coded.tips
+```
+
+```{r}
+
+coded.future %>% 
+  filter(Var1 != 'Other') %>%
+  arrange(desc(Freq)) -> coded.future
+
+rownames(coded.future) <- 1:dim(coded.future)[1]
+
+# Found no other way to delete the gaps in the plor for the ommited two categories :-(
+write.csv2(coded.future, file = "future.csv")
+# factor(coded.tips$Var1)
+
+coded.future <- read.csv2("future.csv")
+
+coded.future$Var1 <- factor(coded.future$Var1, levels = unique(coded.future$Var1)[order(coded.future$Freq, decreasing = FALSE)])
+  
+coded.future %>% 
+  plot_ly(x      = ~Freq, 
+          y      = ~Var1, 
+          type   = "bar", 
+          colors = "viridis",
+          marker = list(color = "#E89300")
+          # orientation = "h"
+          )  %>% layout(xaxis = ax, 
+                        yaxis = ax, 
+                        margin = list(l = 10,
+                                      b = 10,
+                                      t = 10,
+                                      autoexpand = F),
+                        hoverlabel=list(bgcolor="white"))
+```

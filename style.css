@@ -5,3 +5,7 @@
 .modebar{
       display: none !important;
 }
+
+.hovertext text {
+    font-size: 80% !important;
+}
