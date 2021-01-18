@@ -82,10 +82,12 @@ schools.freq %>%
 ```
 
 
-Column {data-width=650}
+Column {data-width=650, .tabset}
 -----------------------------------------------------------------------
 
-### `r names(survey_results)[6]`
+### Tips
+
+`r names(survey_results)[6]`
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 library(DT)
@@ -101,6 +103,23 @@ DT::datatable(survey_results[willing.to.share,6],
 # survey_results[willing.to.share,6]
 ```
 
+### Future
+
+`r names(survey_results)[8]`
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(DT)
+
+willing.to.share <- grep("Yes", survey_results$`Would you be willing share this with us in a one-minute video or as part of a TLC newsletter column?`)
+
+DT::datatable(survey_results[willing.to.share,8],
+              rownames = FALSE,
+              colnames = "",
+              options  = list(bPaginate = FALSE)
+              )
+
+# survey_results[willing.to.share,6]
+```
 
 Column {data-width=350}
 -----------------------------------------------------------------------
