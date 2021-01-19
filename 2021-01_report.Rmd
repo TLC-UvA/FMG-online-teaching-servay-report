@@ -6,7 +6,8 @@ output:
     vertical_layout: fill
     theme: default
     css: "style.css"
-    source_code: embed
+    source_code: "https://github.com/TLC-UvA/FMG-online-teaching-survey-report"
+    social: menu
     # df_print: tibble
 ---
 
