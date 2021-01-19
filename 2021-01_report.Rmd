@@ -61,7 +61,8 @@ ax <- list(
   zeroline       = FALSE,
   showline       = FALSE,
   showticklabels = FALSE,
-  showgrid       = FALSE
+  showgrid       = FALSE,
+  fixedrange     = TRUE   # No zoom in plot
 )
 
 schools.freq %>%  
