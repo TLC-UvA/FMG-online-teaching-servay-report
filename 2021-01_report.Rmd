@@ -7,7 +7,7 @@ output:
     theme: default
     css: "style.css"
     source_code: "https://github.com/TLC-UvA/FMG-online-teaching-survey-report"
-    social: menu
+    social: [ "twitter", "facebook", "linkedin" ]
     # df_print: tibble
 ---
 
