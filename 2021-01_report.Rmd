@@ -38,7 +38,7 @@ n.tips <- length(grep("Yes", survey_results$`Would you be willing share this wit
 valueBox(n.tips, icon = "fa-comments", color = "#E89300")
 ```
 
-### Schools
+### Schools (Hover for categories)
 
 ```{r}
 schools <- survey_results$`In which school(s) do you teach?`
@@ -169,7 +169,7 @@ wordcloud2(data=df, size=.8, color='random-dark')
 ```
 
 
-### Tips categories
+### Tips (Hover for categories)
 
 ```{r}
 coded.tips <- read_excel("../../data/TLC_CheckIn.xls")
@@ -216,7 +216,7 @@ coded.tips %>%
                         hoverlabel=list(bgcolor="white"))
 ```
 
-### Future categories
+### Future (Hover for categories)
 
 ```{r}
 coded.future <- read_excel("../../data/TLC_CheckIn.xls")
