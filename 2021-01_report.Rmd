@@ -12,9 +12,14 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-library(flexdashboard)
-
+# install.packages("plotly")
+# install.packages("ggplot2")
+library("plotly")
+library("flexdashboard")
+library("dplyr")
 library("readxl")
+library("DT")
+
 survey_results <- read_excel("../../data/FMG teachers 2 minute survey  December 2020_January 15, 2021_09.45.xlsx", skip = 1)
 ```
 
@@ -53,10 +58,6 @@ as.data.frame(table(schools)) -> schools.freq
 
 
 ```{r, eval=T}
-# install.packages("plotly")
-# install.packages("ggplot2")
-library(plotly)
-
 ax <- list(
   title = "",
   zeroline       = FALSE,
@@ -72,8 +73,6 @@ schools.freq %>%
           type   = "bar", 
           colors = "viridis",
           marker = list(color = "#E89300")
-          # autoexpand  = F
-          # orientation = "h"
           )  %>% layout(xaxis = ax, 
                         yaxis = ax, 
                         margin = list(l = 10,
@@ -92,17 +91,19 @@ Column {data-width=650, .tabset}
 `r names(survey_results)[6]`
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
-library(DT)
-
 willing.to.share <- grep("Yes", survey_results$`Would you be willing share this with us in a one-minute video or as part of a TLC newsletter column?`)
 
 DT::datatable(survey_results[willing.to.share,6],
               rownames = FALSE,
               colnames = "",
-              options  = list(bPaginate = FALSE)
+              extensions = 'Scroller', 
+              options = list(deferRender = FALSE,
+                             scrollY     = 500,
+                             scroller    = FALSE,
+                             dom = 'ft',
+                             pageLength = 200, 
+                             autoWidth = TRUE)
               )
-
-# survey_results[willing.to.share,6]
 ```
 
 ### Future
@@ -110,17 +111,21 @@ DT::datatable(survey_results[willing.to.share,6],
 `r names(survey_results)[8]`
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
-library(DT)
+# library(DT)
 
 willing.to.share <- grep("Yes", survey_results$`Would you be willing share this with us in a one-minute video or as part of a TLC newsletter column?`)
 
 DT::datatable(survey_results[willing.to.share,8],
               rownames = FALSE,
               colnames = "",
-              options  = list(bPaginate = FALSE)
+              extensions = 'Scroller', 
+              options = list(deferRender = FALSE,
+                             scrollY     = 500,
+                             scroller    = FALSE,
+                             dom = 'ft',
+                             pageLength = 200, 
+                             autoWidth = TRUE)
               )
-
-# survey_results[willing.to.share,6]
 ```
 
 Row {data-width=350}
@@ -140,7 +145,6 @@ library(RColorBrewer)
 library("wordcloud2")
 # install.packages("tm")
 library(tm)
-library("dplyr")
 
 # Create a vector containing only the text
 text <- survey_results$`What is one online teaching tip or trick that you would share with fellow teachers?`
@@ -158,14 +162,14 @@ docs <- tm_map(docs, removeWords, stopwords("english"))
 
 # Create word frequencies
 
-dtm <- TermDocumentMatrix(docs) 
+dtm    <- TermDocumentMatrix(docs) 
 matrix <- as.matrix(dtm) 
-words <- sort(rowSums(matrix),decreasing=TRUE) 
-df <- data.frame(word = names(words),freq=words)
+words  <- sort(rowSums(matrix),decreasing=TRUE) 
+df     <- data.frame(word = names(words),freq=words)
 
 # Create word cloud
 
-wordcloud2(data=df, size=.8, color='random-dark')
+wordcloud2(data=df[-1,], size=.5, color='random-dark')
 ```
 
 
